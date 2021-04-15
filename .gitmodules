@@ -1,0 +1,3 @@
+[submodule "thirdparty/capicxx-core-runtime"]
+	path = thirdparty/capicxx-core-runtime
+	url = https://github.com/GENIVI/capicxx-core-runtime.git
