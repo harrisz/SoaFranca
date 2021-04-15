@@ -3,18 +3,25 @@
 git submodule init
 git submodule update
 
-if [ ! -d  "dbus-1.10.10.tar.gz" ]
+if [ ! -f  "dbus-1.10.10.tar.gz" ]
 then
   wget http://dbus.freedesktop.org/releases/dbus/dbus-1.10.10.tar.gz
 	if [ -d "thirdparty/dbus-1.10.10" ]
 	then
 		rm -rf thirdparty/dbus-1.10.10
 	fi
-	tar -xzf dbus-1.10.10.tar.gz -C thirdparty/dbus-1.10.10
+	tar -xzf dbus-1.10.10.tar.gz  -C thirdparty/ 
 	cd thirdparty/dbus-1.10.10
-	for i in ../capicxx-dbus-runtime/src/dbus-patches/*.patch; do patch -p1 < $i; done
-	./configure
-	make
+	#for i in ../capicxx-dbus-runtime/src/dbus-patches/*.patch; do patch -p1 < $i; done
+	#./configure
+	#make
+else
+	if [ -d "thirdparty/dbus-1.10.10" ]
+	then
+		rm -rf thirdparty/dbus-1.10.10
+	fi
+	tar -xzf  dbus-1.10.10.tar.gz  -C thirdparty/
+	cd thirdparty/dbus-1.10.10
 fi
 
 
