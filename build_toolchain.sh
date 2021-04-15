@@ -12,9 +12,9 @@ then
 	fi
 	tar -xzf dbus-1.10.10.tar.gz  -C thirdparty/ 
 	cd thirdparty/dbus-1.10.10
-	#for i in ../capicxx-dbus-runtime/src/dbus-patches/*.patch; do patch -p1 < $i; done
-	#./configure
-	#make
+	for i in ../capicxx-dbus-runtime/src/dbus-patches/*.patch; do patch -p1 < $i; done
+	./configure
+	make
 else
 	if [ -d "thirdparty/dbus-1.10.10" ]
 	then
@@ -22,6 +22,9 @@ else
 	fi
 	tar -xzf  dbus-1.10.10.tar.gz  -C thirdparty/
 	cd thirdparty/dbus-1.10.10
+	for i in ../capicxx-dbus-runtime/src/dbus-patches/*.patch; do patch -p1 < $i; done
+	./configure
+	make
 fi
 
 
