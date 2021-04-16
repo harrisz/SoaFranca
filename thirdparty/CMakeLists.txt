@@ -12,13 +12,21 @@ function(initialize_submodule DIRECTORY)
 endfunction(initialize_submodule)
 initialize_submodule(capicxx-core-runtime)
 initialize_submodule(capicxx-dbus-runtime)
+initialize_submodule(vsomeip)
+initialize_submodule(capicxx-someip-runtime)
 
-set(PKG_CONFIG_PATH ./dbus-1.10.10)
+set(ENV{PKG_CONFIG_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/dbus-1.10.10")
 message("PKG_CONFIG_PATH variable is $ENV{PKG_CONFIG_PATH}")
-set(ENV{PKG_CONFIG_PATH} "${PWD}/dbus-1.10.10")
 
 SET(USE_INSTALLED_COMMONAPI OFF CACHE BOOL "Use installed commonapi OFF")
 SET(USE_INSTALLED_DBUS OFF CACHE BOOL "Use installed commonapi OFF")
+##SOMEIP definition
+SET(ENABLE_SIGNAL_HANDLING 1 CACHE BOOL "Use installed commonapi 1")
+SET(DIAGNOSIS_ADDRESS 0x10 CACHE INT "Diagnosis address 0x10")
+##CommonAPI SOMEIP
+SET(USE_INSTALLED_COMMONAPI OFF CACHE BOOL "Use installed commonapi someip OFF")
 
 add_subdirectory(capicxx-core-runtime)
 add_subdirectory(capicxx-dbus-runtime)
+add_subdirectory(vsomeip)
+add_subdirectory(capicxx-someip-runtime)

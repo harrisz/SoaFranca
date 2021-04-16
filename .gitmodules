@@ -4,3 +4,9 @@
 [submodule "thirdparty/capicxx-dbus-runtime"]
 	path = thirdparty/capicxx-dbus-runtime
 	url = https://github.com/GENIVI/capicxx-dbus-runtime.git
+[submodule "thirdparty/capicxx-someip-runtime"]
+	path = thirdparty/capicxx-someip-runtime
+	url = https://github.com/GENIVI/capicxx-someip-runtime.git
+[submodule "thirdparty/vsomeip"]
+	path = thirdparty/vsomeip
+	url = https://github.com/GENIVI/vsomeip.git
