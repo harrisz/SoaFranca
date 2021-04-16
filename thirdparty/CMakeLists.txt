@@ -11,5 +11,14 @@ function(initialize_submodule DIRECTORY)
     endif()
 endfunction(initialize_submodule)
 initialize_submodule(capicxx-core-runtime)
+initialize_submodule(capicxx-dbus-runtime)
+
+set(PKG_CONFIG_PATH ./dbus-1.10.10)
+message("PKG_CONFIG_PATH variable is $ENV{PKG_CONFIG_PATH}")
+set(ENV{PKG_CONFIG_PATH} "${PWD}/dbus-1.10.10")
+
+SET(USE_INSTALLED_COMMONAPI OFF CACHE BOOL "Use installed commonapi OFF")
+SET(USE_INSTALLED_DBUS OFF CACHE BOOL "Use installed commonapi OFF")
 
 add_subdirectory(capicxx-core-runtime)
+add_subdirectory(capicxx-dbus-runtime)

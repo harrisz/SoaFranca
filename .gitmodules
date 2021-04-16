@@ -1,3 +1,6 @@
 [submodule "thirdparty/capicxx-core-runtime"]
 	path = thirdparty/capicxx-core-runtime
 	url = https://github.com/GENIVI/capicxx-core-runtime.git
+[submodule "thirdparty/capicxx-dbus-runtime"]
+	path = thirdparty/capicxx-dbus-runtime
+	url = https://github.com/GENIVI/capicxx-dbus-runtime.git
