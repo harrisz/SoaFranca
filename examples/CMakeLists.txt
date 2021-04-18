@@ -3,16 +3,50 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -std=c++0x")
 
 # Include symbols, just in case we need to debug a crash
 set(CMAKE_BUILD_TYPE Debug)
-set(FIDL_DIR fidl/)
-set(SRC_GEN_DIR src-gen/)
+message(STATUS "project dir: ${PRJ_SRC_DIR}")
+message(STATUS "harris project source dir: ${PROJECT_SOURCE_DIR}")
+set(FIDL_DIR ${PROJECT_SOURCE_DIR}/examples/fidl/)
+set(SRC_GEN_DIR ${PROJECT_SOURCE_DIR}/examples/src-gen)
 
-set(GEN_FIDL_CORE_CMD ${FIDL_CORE_GENERATOR} -sk ${FIDL_DIR}/HelloWorld.fidl)
-add_custom_command(OUTPUT ${SRC_GEN_DIR}/
-    COMMAND ${GEN_FIDL_CORE_CMD}
-    DEPENDS ${FIDL_DIR}/HelloWorld.fidl
-    WORKING_DIRECTORY ${PRJ_SRC_DIR}
-    COMMENT "Call CommonAPI code generator."
-    )
+include_directories(
+        src-gen
+        ${PROJECT_SOURCE_DIR}/thirdparty/capicxx-core-runtime/include
+        ${PROJECT_SOURCE_DIR}/thirdparty/capicxx-dbus-runtime/include
+        ${PROJECT_SOURCE_DIR}/thirdparty/capicxx-someip-runtime/include
+        ${PROJECT_SOURCE_DIR}/thirdparty/dbus-1.10.10/
+)
+
+link_directories(${CMAKE_BINARY_DIR}/thirdparty/capicxx-core-runtime/
+        ${CMAKE_BINARY_DIR}/thirdparty/capicxx-dbus-runtime/
+        ${CMAKE_BINARY_DIR}/thirdparty/capicxx-someip-runtime/
+        ${PROJECT_SOURCE_DIR}/thirdparty/dbus-1.10.10/dbus/.libs/
+        )
+
+message("Generator: ${FIDL_CORE_GENERATOR}")
+set(GEN_FIDL_CORE_CMD ${FIDL_CORE_GENERATOR} -dest ${SRC_GEN_DIR} -sk ${PROJECT_SOURCE_DIR}/examples/fidl/HelloWorld.fidl)
+set(GEN_FIDL_DBUS_CMD ${FIDL_DBUS_GENERATOR} -dest ${SRC_GEN_DIR} ${PROJECT_SOURCE_DIR}/examples/fidl/HelloWorld.fidl)
+set(GEN_FIDL_SOMEIP_CMD ${FIDL_SOMEIP_GENERATOR} -dest ${SRC_GEN_DIR} ${PROJECT_SOURCE_DIR}/examples/fidl/HelloWorld.fdepl)
+
+execute_process(
+        COMMAND ${GEN_FIDL_CORE_CMD}
+        COMMAND ${GEN_FIDL_DBUS_CMD}
+        #COMMAND ${GEN_FIDL_SOMEIP_CMD}
+)
+
+#add_custom_command(
+#        OUTPUT fidl_generated_successfully
+#        #COMMAND touch fidl_generated_successfully
+#        COMMAND ${GEN_FIDL_CORE_CMD}
+#        COMMAND ${GEN_FIDL_DBUS_CMD}
+#)
+
+#add_custom_command(OUTPUT ${SRC_GEN_DIR}/fidl_generated_successfully
+#    COMMAND ${GEN_FIDL_CORE_CMD}
+#    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/examples
+#    COMMENT "Call CommonAPI code generator."
+#    )
+add_custom_target(fidl_gen DEPENDS fidl_generated_successfully)
+
 
 #include_directories(
 #    src-gen
@@ -35,22 +69,23 @@ add_custom_command(OUTPUT ${SRC_GEN_DIR}/
 #    ../install/lib
 #)
 #
-#add_executable(HelloWorldClient
-#    src/HelloWorldClient.cpp
-#    src-gen/v1/commonapi/HelloWorldDBusProxy.cpp
-#    src-gen/v1/commonapi/HelloWorldDBusDeployment.cpp
-#)
-#target_link_libraries(HelloWorldClient CommonAPI CommonAPI-DBus dbus-1)
-#
-#add_executable(HelloWorldService
-#    src/HelloWorldService.cpp
-#    src/HelloWorldStubImpl.cpp
-#    src-gen/v1/commonapi/HelloWorldDBusStubAdapter.cpp
-#    src-gen/v1/commonapi/HelloWorldStubDefault.cpp
-#    src-gen/v1/commonapi/HelloWorldDBusDeployment.cpp
-#)
-#target_link_libraries(HelloWorldService CommonAPI CommonAPI-DBus dbus-1)
-#
+add_executable(HelloWorldClient
+    src/HelloWorldClient.cpp
+    src-gen/v1/commonapi/HelloWorldDBusProxy.cpp
+    src-gen/v1/commonapi/HelloWorldDBusDeployment.cpp
+)
+#add_dependencies(HelloWorldClient  fidl_gen)
+target_link_libraries(HelloWorldClient CommonAPI CommonAPI-DBus dbus-1)
+
+add_executable(HelloWorldService
+    src/HelloWorldService.cpp
+    src/HelloWorldStubImpl.cpp
+    src-gen/v1/commonapi/HelloWorldDBusStubAdapter.cpp
+    src-gen/v1/commonapi/HelloWorldStubDefault.hpp
+    src-gen/v1/commonapi/HelloWorldDBusDeployment.cpp
+)
+target_link_libraries(HelloWorldService CommonAPI CommonAPI-DBus dbus-1)
+
 ##SOMEIP examples
 #add_executable(HelloWorldSomeIPClient
 #	src/HelloWorldClient.cpp
