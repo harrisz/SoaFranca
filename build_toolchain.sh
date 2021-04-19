@@ -56,5 +56,9 @@ then
 fi
 unzip -o toolchains/commonapi_someip_generator.zip -d host_tools/commonapi_someip_generator
 
-###
-#cd ..
+### build
+cd ${currentPath}
+mkdir build
+cd build
+cmake ..
+make
