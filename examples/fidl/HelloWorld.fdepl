@@ -9,7 +9,7 @@ define org.genivi.commonapi.someip.deployment for interface commonapi.HelloWorld
 	}
 }
 
-define org.genivi.commonapi.someip.deployment for provider MyService {
+define org.genivi.commonapi.someip.deployment for provider as MyService {
 	instance commonapi.HelloWorld {
 		InstanceId = "test"
 		SomeIpInstanceID = 22136

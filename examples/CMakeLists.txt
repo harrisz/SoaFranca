@@ -19,6 +19,7 @@ include_directories(
 link_directories(${CMAKE_BINARY_DIR}/thirdparty/capicxx-core-runtime/
         ${CMAKE_BINARY_DIR}/thirdparty/capicxx-dbus-runtime/
         ${CMAKE_BINARY_DIR}/thirdparty/capicxx-someip-runtime/
+        ${CMAKE_BINARY_DIR}/thirdparty/vsomeip/
         ${PROJECT_SOURCE_DIR}/thirdparty/dbus-1.10.10/dbus/.libs/
         )
 
@@ -30,7 +31,7 @@ set(GEN_FIDL_SOMEIP_CMD ${FIDL_SOMEIP_GENERATOR} -dest ${SRC_GEN_DIR} ${PROJECT_
 execute_process(
         COMMAND ${GEN_FIDL_CORE_CMD}
         COMMAND ${GEN_FIDL_DBUS_CMD}
-        #COMMAND ${GEN_FIDL_SOMEIP_CMD}
+        COMMAND ${GEN_FIDL_SOMEIP_CMD}
 )
 
 #add_custom_command(
@@ -87,19 +88,19 @@ add_executable(HelloWorldService
 target_link_libraries(HelloWorldService CommonAPI CommonAPI-DBus dbus-1)
 
 ##SOMEIP examples
-#add_executable(HelloWorldSomeIPClient
-#	src/HelloWorldClient.cpp
-#	src-gen/v1/commonapi/HelloWorldSomeIPProxy.cpp
-#	src-gen/v1/commonapi/HelloWorldSomeIPDeployment.cpp
-#)
-#target_link_libraries(HelloWorldSomeIPClient CommonAPI CommonAPI-SomeIP vsomeip)
-#add_executable(HelloWorldSomeIPService
-#	src/HelloWorldService.cpp
-#	src/HelloWorldStubImpl.cpp
-#	src-gen/v1/commonapi/HelloWorldSomeIPStubAdapter.cpp
-#	src-gen/v1/commonapi/HelloWorldStubDefault.cpp
-#	src-gen/v1/commonapi/HelloWorldSomeIPDeployment.cpp
-#)
-#target_link_libraries(HelloWorldSomeIPService CommonAPI CommonAPI-SomeIP vsomeip)
+add_executable(HelloWorldSomeIPClient
+	src/HelloWorldClient.cpp
+	src-gen/v1/commonapi/HelloWorldSomeIPProxy.cpp
+	src-gen/v1/commonapi/HelloWorldSomeIPDeployment.cpp
+)
+target_link_libraries(HelloWorldSomeIPClient CommonAPI CommonAPI-SomeIP vsomeip3)
+add_executable(HelloWorldSomeIPService
+	src/HelloWorldService.cpp
+	src/HelloWorldStubImpl.cpp
+	src-gen/v1/commonapi/HelloWorldSomeIPStubAdapter.cpp
+	src-gen/v1/commonapi/HelloWorldStubDefault.hpp
+	src-gen/v1/commonapi/HelloWorldSomeIPDeployment.cpp
+)
+target_link_libraries(HelloWorldSomeIPService CommonAPI CommonAPI-SomeIP vsomeip3)
 #
 #install(PROGRAMS build/HelloWorldService build/HelloWorldSomeIPService DESTINATION ../install/bin/)
