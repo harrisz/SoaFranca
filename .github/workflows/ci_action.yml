@@ -1,10 +1,6 @@
 name: C/C++ CI
 
-on:
-    push:
-        - master
-    paths-ignore:
-        - README.md
+on: [push]
 
 jobs:
     build:
@@ -21,6 +17,6 @@ jobs:
               run: sudo apt-get update && sudo apt-get install -y cmake cmake-qt-gui libexpat-dev expat default-jre libboost-all-dev
 
             - name: Compile
-              run: mkdir -p linux_build && cd linux_build && cmake .. && make -j4
+              run: ./build_toolchain.sh
 
 
