@@ -1,0 +1,17 @@
+import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "TpOverUdpTest.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface commonapi.TpOverUdpTest {
+	SomeIpServiceID = 1
+
+	method sayHello {
+		SomeIpMethodID = 1
+	}
+}
+
+define org.genivi.commonapi.someip.deployment for provider as MyService {
+	instance commonapi.TpOverUdpTest {
+		InstanceId = "Server.server"
+		SomeIpInstanceID = 1
+	}
+}

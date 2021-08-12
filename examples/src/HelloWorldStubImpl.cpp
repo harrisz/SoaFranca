@@ -8,5 +8,6 @@ void HelloWorldStubImpl::sayHello(const std::shared_ptr<CommonAPI::ClientId> _cl
     messageStream << "Hello " << _name << "!";
     std::cout << "sayHello('" << _name << "'): '" << messageStream.str() << "'\n";
 
-    _reply(messageStream.str());
+    //_reply(messageStream.str());
+    _reply(true);
 };

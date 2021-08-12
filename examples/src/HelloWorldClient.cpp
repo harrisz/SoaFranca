@@ -2,13 +2,14 @@
 #include <string>
 #include <unistd.h>
 #include <CommonAPI/CommonAPI.hpp>
-#include <v1/commonapi/HelloWorldProxy.hpp>
+#include <v0/commonapi/TpOverUdpTestProxy.hpp>
 
-using namespace v1::commonapi;
+using namespace v0::commonapi;
 
 int main() {
     std::shared_ptr < CommonAPI::Runtime > runtime = CommonAPI::Runtime::get();
-    std::shared_ptr<HelloWorldProxy<>> myProxy = runtime->buildProxy<HelloWorldProxy>("local", "test");
+    //std::shared_ptr<TpOverUdpTestProxy<>> myProxy = runtime->buildProxy<TpOverUdpTestProxy>("local", "test", "hello_world_client");
+    std::shared_ptr<TpOverUdpTestProxy<>> myProxy = runtime->buildProxy<TpOverUdpTestProxy>("local", "Server.server", "hello_world_client");
 
     // START modification
     // I ran into a NULL myProxy on older versions (possibly a version
@@ -27,7 +28,8 @@ int main() {
     std::cout << "Available..." << std::endl;
 
     CommonAPI::CallStatus callStatus;
-    std::string returnMessage;
+    //std::string returnMessage;
+    bool returnMessage;
     myProxy->sayHello("Bob", callStatus, returnMessage);
     std::cout << "Got message: '" << returnMessage << "'\n";
 

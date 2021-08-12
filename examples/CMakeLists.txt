@@ -24,9 +24,9 @@ link_directories(${CMAKE_BINARY_DIR}/thirdparty/capicxx-core-runtime/
         )
 
 message("Generator: ${FIDL_CORE_GENERATOR}")
-set(GEN_FIDL_CORE_CMD ${FIDL_CORE_GENERATOR} -dest ${SRC_GEN_DIR} -sk ${PROJECT_SOURCE_DIR}/examples/fidl/HelloWorld.fidl)
-set(GEN_FIDL_DBUS_CMD ${FIDL_DBUS_GENERATOR} -dest ${SRC_GEN_DIR} ${PROJECT_SOURCE_DIR}/examples/fidl/HelloWorld.fidl)
-set(GEN_FIDL_SOMEIP_CMD ${FIDL_SOMEIP_GENERATOR} -dest ${SRC_GEN_DIR} ${PROJECT_SOURCE_DIR}/examples/fidl/HelloWorld.fdepl)
+set(GEN_FIDL_CORE_CMD ${FIDL_CORE_GENERATOR} -dest ${SRC_GEN_DIR} -sk ${PROJECT_SOURCE_DIR}/examples/fidl/TpOverUdpTest.fidl)
+set(GEN_FIDL_DBUS_CMD ${FIDL_DBUS_GENERATOR} -dest ${SRC_GEN_DIR} ${PROJECT_SOURCE_DIR}/examples/fidl/TpOverUdpTest.fidl)
+set(GEN_FIDL_SOMEIP_CMD ${FIDL_SOMEIP_GENERATOR} -dest ${SRC_GEN_DIR} ${PROJECT_SOURCE_DIR}/examples/fidl/TpOverUdpTest.fdepl)
 
 execute_process(
         COMMAND ${GEN_FIDL_CORE_CMD}
@@ -72,8 +72,8 @@ add_custom_target(fidl_gen DEPENDS fidl_generated_successfully)
 #
 add_executable(HelloWorldClient
     src/HelloWorldClient.cpp
-    src-gen/v1/commonapi/HelloWorldDBusProxy.cpp
-    src-gen/v1/commonapi/HelloWorldDBusDeployment.cpp
+    src-gen/v0/commonapi/TpOverUdpTestDBusProxy.cpp
+    src-gen/v0/commonapi/TpOverUdpTestDBusDeployment.cpp
 )
 #add_dependencies(HelloWorldClient  fidl_gen)
 target_link_libraries(HelloWorldClient CommonAPI CommonAPI-DBus dbus-1)
@@ -81,25 +81,25 @@ target_link_libraries(HelloWorldClient CommonAPI CommonAPI-DBus dbus-1)
 add_executable(HelloWorldService
     src/HelloWorldService.cpp
     src/HelloWorldStubImpl.cpp
-    src-gen/v1/commonapi/HelloWorldDBusStubAdapter.cpp
-    src-gen/v1/commonapi/HelloWorldStubDefault.hpp
-    src-gen/v1/commonapi/HelloWorldDBusDeployment.cpp
+    src-gen/v0/commonapi/TpOverUdpTestDBusStubAdapter.cpp
+    src-gen/v0/commonapi/TpOverUdpTestStubDefault.hpp
+    src-gen/v0/commonapi/TpOverUdpTestDBusDeployment.cpp
 )
 target_link_libraries(HelloWorldService CommonAPI CommonAPI-DBus dbus-1)
 
 ##SOMEIP examples
 add_executable(HelloWorldSomeIPClient
 	src/HelloWorldClient.cpp
-	src-gen/v1/commonapi/HelloWorldSomeIPProxy.cpp
-	src-gen/v1/commonapi/HelloWorldSomeIPDeployment.cpp
+	src-gen/v0/commonapi/TpOverUdpTestSomeIPProxy.cpp
+	src-gen/v0/commonapi/TpOverUdpTestSomeIPDeployment.cpp
 )
 target_link_libraries(HelloWorldSomeIPClient CommonAPI CommonAPI-SomeIP vsomeip3)
 add_executable(HelloWorldSomeIPService
 	src/HelloWorldService.cpp
 	src/HelloWorldStubImpl.cpp
-	src-gen/v1/commonapi/HelloWorldSomeIPStubAdapter.cpp
-	src-gen/v1/commonapi/HelloWorldStubDefault.hpp
-	src-gen/v1/commonapi/HelloWorldSomeIPDeployment.cpp
+	src-gen/v0/commonapi/TpOverUdpTestSomeIPStubAdapter.cpp
+	src-gen/v0/commonapi/TpOverUdpTestStubDefault.hpp
+	src-gen/v0/commonapi/TpOverUdpTestSomeIPDeployment.cpp
 )
 target_link_libraries(HelloWorldSomeIPService CommonAPI CommonAPI-SomeIP vsomeip3)
 #
